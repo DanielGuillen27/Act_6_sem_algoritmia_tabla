@@ -523,33 +523,7 @@ void Administrar<T>::escribir(QString fileName) {
 
     file.close();
 }
-/*
-template <class T>
-void Administrar<T>::sortBurbuja(){
-        if (!anchor) {
-            return;
-        }
-        position temp;
-        bool cambio = true;
-        while (cambio) {
-            cambio = false;
-            position actual = anchor;
-            while (actual && actual->getNext()) {
-                if (actual->getData() > actual->getNext()->getData()) {
-                    // Intercambiar los valores de los nodos
-                    temp = actual;  // Almacenar temporalmente el puntero al primer nodo
-                    actual = actual->getNext();  // Mover actual al siguiente nodo
-                    temp->setNext(actual->getNext());  // Actualizar el puntero siguiente de temp
-                    actual->setNext(temp);  // Actualizar el puntero siguiente de actual
 
-                    //en ves de usar neurona usamos un nodo y cambiamos las direcciones del nodo
-                    cambio = true;
-                }
-                actual = actual->getNext();
-            }
-        }
-}
-*/
 template <class T>
 void Administrar<T>::sortBurbuja() {
         if (!anchor) {
