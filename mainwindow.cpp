@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-
+#include <QMessageBox>
 #include <QTableWidget>
 
 bool ok;
@@ -219,11 +219,16 @@ void MainWindow::on_buscarbtn_clicked()
     ui->tableWidget->insertRow(ui->tableWidget->rowCount());
 
     Neurona otraNeurona;
+    try{
 
     otraNeurona.setId(ui->lineEdit->text().toInt(&ok));
     nuevo = lista.findData(otraNeurona);
 
     n1 = lista.retrieve(nuevo);
+    }catch(exception ex){
+    QMessageBox::information(this,"Alerta", "Ingrese un valor exitente");
+
+    }
  fila = ui->tableWidget->rowCount() - 1;
     ui->txtGreen->setText(QString::number(n1.getId()));
     ui->tableWidget->setItem(fila, ID, new QTableWidgetItem(QString::number(n1.getId())));
@@ -240,5 +245,11 @@ void MainWindow::on_buscarbtn_clicked()
 void MainWindow::on_txtBuscar_textChanged(const QString &arg1)
 {
 
+}
+
+
+void MainWindow::on_btnOrdenar_clicked()
+{
+    lista.sortBurbuja();
 }
 

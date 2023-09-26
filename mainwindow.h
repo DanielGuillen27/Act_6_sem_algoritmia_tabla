@@ -246,6 +246,7 @@ private:
 
         void setData(const T&);
         void setNext(position);
+        void swapData(T&,T&);
 
     };
     position anchor;
@@ -274,6 +275,7 @@ public:
     position getPrevPost(position) const;
     position getNextPos(position) const;
 
+    void sortBurbuja();
 
     void deleteAll();
 
@@ -521,7 +523,66 @@ void Administrar<T>::escribir(QString fileName) {
 
     file.close();
 }
+/*
+template <class T>
+void Administrar<T>::sortBurbuja(){
+        if (!anchor) {
+            return;
+        }
+        position temp;
+        bool cambio = true;
+        while (cambio) {
+            cambio = false;
+            position actual = anchor;
+            while (actual && actual->getNext()) {
+                if (actual->getData() > actual->getNext()->getData()) {
+                    // Intercambiar los valores de los nodos
+                    temp = actual;  // Almacenar temporalmente el puntero al primer nodo
+                    actual = actual->getNext();  // Mover actual al siguiente nodo
+                    temp->setNext(actual->getNext());  // Actualizar el puntero siguiente de temp
+                    actual->setNext(temp);  // Actualizar el puntero siguiente de actual
 
+                    //en ves de usar neurona usamos un nodo y cambiamos las direcciones del nodo
+                    cambio = true;
+                }
+                actual = actual->getNext();
+            }
+        }
+}
+*/
+template <class T>
+void Administrar<T>::sortBurbuja() {
+        if (!anchor) {
+            return;
+        }
+
+        bool cambio = true;
+        while (cambio) {
+            cambio = false;
+            position actual = anchor;
+            position prev = nullptr;  // Un puntero para rastrear el nodo anterior
+
+            while (actual && actual->getNext()) {
+                if (actual->getData() > actual->getNext()->getData()) {
+                    // Intercambiar los valores de los nodos
+                    position temp = actual->getNext();
+                    actual->setNext(temp->getNext());
+                    temp->setNext(actual);
+
+                    // Manejo de los punteros prev y anchor si el nodo actual es el primero
+                    if (prev) {
+                        prev->setNext(temp);
+                    } else {
+                        anchor = temp;  // Actualiza el inicio de la lista si el primer nodo cambia
+                    }
+
+                    cambio = true;
+                }
+                prev = actual;
+                actual = actual->getNext();
+            }
+        }
+}
 
 /*----------------- FINAL DE LA CLASE ADMINISTRADORA ------------------*/
 
@@ -572,6 +633,8 @@ private slots:
     void on_buscarbtn_clicked();
 
     void on_txtBuscar_textChanged(const QString &arg1);
+
+    void on_btnOrdenar_clicked();
 
 private:
     Ui::MainWindow *ui;
